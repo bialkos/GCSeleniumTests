@@ -6,26 +6,50 @@ using GCSeleniumTests.Pages;
 
 namespace GCSeleniumTests.Tests
 {
-    public class AddThread
+    public class AddThread : TestBase
     {
-        IWebDriver driver;
+        TestListPage testListPage;
+        HelperMethods helper;
+        string threadNumber;
+        string variationNumber;
+        string threadFullName;
 
         [SetUp]
-        public void Setup()
+        public void AddThreadSetUp()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(10);
-            driver.Manage().Window.Maximize();
+            helper = new HelperMethods();
+            threadNumber = helper.GetRandomThreadNumber();
+            variationNumber = helper.GetRandomVariation();
+            threadFullName = $"Thread {threadNumber}, Var {variationNumber.ToUpper()}";
         }
 
         [Test]
-        public void AddNewThread()
+        public void ValidateConfirmationMessage()
         {
-            string threadName = "7.11";
-            driver.Navigate().GoToUrl("https://localhost:44351/AddNewTests");
-            AddTestPage addTestPage = new AddTestPage(driver);
-            addTestPage.PopulateThreadInput(threadName);
+            testListPage = new TestListPage(driver);
+            string expectedConfirmationMessage = $"Test added: Thread: {threadNumber}, Var {variationNumber.ToUpper()}";
+            var addTestPage = testListPage.GoToAddTestsPage();
+            addTestPage.AddThread(threadNumber, variationNumber);
+            string confirmationMessage = addTestPage.GetConfirmationMessage();
+            Assert.AreEqual(expectedConfirmationMessage, confirmationMessage, "The confirmation message is not correct");
+        }
+
+        [Test]
+        public void ValidateNewTestIsAdded()
+        {
+            testListPage = new TestListPage(driver);
+            int numberOfThreadsBefore = testListPage.GetAllThreadsCount();
+            var addTestPage = testListPage.GoToAddTestsPage();
+            addTestPage.AddThread(threadNumber, variationNumber)
+                       .GoToTestListPage();
+            int numberOfThreadsAfter = numberOfThreadsBefore + 1;
+            Assert.AreEqual(numberOfThreadsAfter, testListPage.GetAllThreadsCount(), "The number of threads is not correct");
+        }
+
+        [Test]
+        public void ValidateNewTestName()
+        {
+
         }
     }
 }
