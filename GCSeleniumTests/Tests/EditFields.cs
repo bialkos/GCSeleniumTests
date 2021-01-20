@@ -25,15 +25,15 @@ namespace GCSeleniumTests.Tests
         }
 
         [Test]
-        public void ValidateDataCheckTesterIsUpdated()
+        public void IsDataCheckTesterUpdated()
         {
             testListPage = new TestListPage(driver);
-            var addTestPage = testListPage.GoToAddTestsPage();
+            AddTestPage addTestPage = testListPage.GoToAddTestsPage();
             addTestPage.AddThread(threadNumber, variationNumber)
                        .GoToTestListPage();
-            var threadId = testListPage.GetLastAddedThreadIDByThreadName(threadFullName);
-            testListPage.SelectDataCheckTester(threadId, testerName)
-                        .ClickRefreshButton();
+            string threadId = testListPage.GetLastThreadIdByThreadName(threadFullName);
+            testListPage.SelectDataCheckTester(threadId, testerName);
+            driver.Navigate().Refresh();
             var dataCheckTesterSelected = testListPage.GetSelectedDataCheckTester(threadId);
             Assert.AreEqual(testerName, dataCheckTesterSelected, $"The tester name is different than '{testerName}'");
         }

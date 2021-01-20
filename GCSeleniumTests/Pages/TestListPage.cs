@@ -45,14 +45,14 @@ namespace GCSeleniumTests.Pages
             return threadElements;
         }
 
-        public List<string> GetAllThreadIDsByThreadName(string number)
+        public List<string> GetAllThreadIDsByThreadName(string name)
         {
             var allThreads = GetAllThreads();
             List<string> matchingThreads = new List<string>();
             foreach (IWebElement thread in allThreads)
             {
                 var threadNumberAttribute = thread.GetAttribute("number").TrimEnd();
-                if (threadNumberAttribute == number)
+                if (threadNumberAttribute == name)
                 {
                     matchingThreads.Add(thread.GetAttribute("thread-id"));
                 }
@@ -60,12 +60,11 @@ namespace GCSeleniumTests.Pages
             return matchingThreads;
         }
 
-        public string GetLastAddedThreadIDByThreadName(string name)
+        public string GetLastThreadIdByThreadName(string name)
         {
             var matchingThreads = GetAllThreadIDsByThreadName(name);
             var counter = matchingThreads.Count();
-            string lastAddedThreadId = matchingThreads[counter - 1];
-            return lastAddedThreadId;
+            return matchingThreads[counter - 1];
         }
 
         public IWebElement GetThreadByThreadId(string threadId)

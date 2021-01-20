@@ -46,10 +46,11 @@ namespace GCSeleniumTests.Tests
             Assert.AreEqual(numberOfThreadsAfter, testListPage.GetAllThreadsCount(), "The number of threads is not correct");
         }
 
-        [Test]
-        public void ValidateNewTestName()
-        {
+        //[Test]
+        //public void ValidateNewTestName()
+        //{
+        //    testListPage = new TestListPage(driver);
 
-        }
+        //}
     }
 }
