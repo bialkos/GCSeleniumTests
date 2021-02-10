@@ -8,7 +8,7 @@ namespace GCSeleniumTests
     public class TestBase
     {
         public IWebDriver driver;
-        private string homePageUrl = "https://localhost:44351/";
+        private string homePageUrl = "https://testcollaborator.azurewebsites.net/";
 
         [SetUp]
         public void Setup()

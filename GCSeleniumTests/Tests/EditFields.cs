@@ -13,7 +13,7 @@ namespace GCSeleniumTests.Tests
         string threadNumber;
         string variationNumber;
         string threadFullName;
-        string testerName = "mbielecki";
+        string testerName = "tester2";
 
         [SetUp]
         public void AddThreadSetUp()
